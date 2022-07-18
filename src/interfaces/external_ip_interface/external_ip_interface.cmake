@@ -1,0 +1,13 @@
+set(
+	EXTERNAL_IP_INTERFACE
+	external_ip_interface
+)
+add_library(
+	${EXTERNAL_IP_INTERFACE}
+	INTERFACE
+)
+target_include_directories(
+	${EXTERNAL_IP_INTERFACE}
+	INTERFACE
+		${CMAKE_CURRENT_LIST_DIR}
+)

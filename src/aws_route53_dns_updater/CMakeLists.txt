@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 3.18)
+
+include(FindPkgConfig)
+pkg_check_modules(
+	AWS_ROUTE53
+	REQUIRED
+	aws-cpp-sdk-route53
+)
+pkg_check_modules(
+	AWS_CORE
+	REQUIRED
+	aws-cpp-sdk-core
+)
+
+set(
+	TARGET_NAME
+		aws_route53_dns_updater
+)
+add_library(
+	${TARGET_NAME}
+	STATIC
+		${CMAKE_CURRENT_LIST_DIR}/aws_route53_dns_updater.cpp
+)
+target_include_directories(
+	${TARGET_NAME}
+	PRIVATE
+		${CMAKE_CURRENT_LIST_DIR}
+		${AWS_CORE_INCLUDE_DIRS}
+	PUBLIC
+		${CMAKE_CURRENT_LIST_DIR}/include
+		${AWS_ROUTE53_INCLUDE_DIRS}
+)
+target_link_libraries(
+	${TARGET_NAME}
+	PRIVATE
+		${AWS_ROUTE53_LDFLAGS}
+		${AWS_CORE_LDFLAGS}
+	PUBLIC
+		dns_address_record_update_interface
+)
